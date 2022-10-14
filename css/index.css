@@ -2,6 +2,14 @@ body {
     background-color: #EBBDBD;
 }
 
+.hbl-logo {
+    position: fixed;
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 150px;
+    height: 150px;
+}
+
 .img-logo {
     height: 40vh;
     cursor: pointer;
