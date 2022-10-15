@@ -2,6 +2,8 @@ let current_pattern = -1;
 let pattern_array = shuffle(Array.from({ length: 8 }, (_, i) => i + 1));
 
 $(document).on("click", "#logo", selectPattern);
+$(document).on("click", "#img-modal", () => { $("#img-modal").hide(); });
+$(document).on("click", ".img-pattern", (event) => { showImageModal($(event.target)); });
 
 function shuffle(array) {
     let tmp, current, top = array.length;
@@ -18,10 +20,18 @@ function shuffle(array) {
 
 function showCurrentPattern() {
     current_pattern = pattern_array.pop();
-    $(`#pattern_${current_pattern}`).removeClass("pattern-disable");
+    let current_image = $(`#pattern_${current_pattern}`);
+
+    $(`#logo`).prop("disabled", false);
+    current_image.removeClass("pattern-disable");
+
+    showImageModal(current_image)
 }
 
 function selectPattern() {
+    $(`#logo`).prop("disabled", true);
+
+    $(`#pattern_${current_pattern}`).css("cursor", "default");
     $(`#pattern_${current_pattern}`).addClass("pattern-ignore");
 
     switch (pattern_array.length) {
@@ -47,4 +57,16 @@ function selectPattern() {
             clearInterval(pattern_interval);
         }
     }, 100);
+}
+
+function showImageModal(image) {
+    if (!image.hasClass('pattern-disable') &&
+        !image.hasClass('pattern-ignore')) {
+        image.css("cursor", "pointer");
+
+        $("#img-modal img").attr("src", image.attr("src"));
+        $("#img-modal img").attr("alt", image.attr("alt"));
+
+        $("#img-modal").show();
+    }
 }
